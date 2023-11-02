@@ -18,15 +18,53 @@ window.addEventListener("load", () => {
   }
 });
 
+// getting data on sesion storage
+let getSelectedVideoInfo;
+
+const videoInfoString = sessionStorage.getItem("selectedVideoInformation");
+if (videoInfoString) {
+  getSelectedVideoInfo = JSON.parse(videoInfoString);
+
+  // console.log(getSelectedVideoInfo);
+}
+
+//cal like count
+
+function calculateLikes(likeCount) {
+  let displayViews;
+  let count;
+  if (likeCount < 1000) {
+    displayViews = likeCount;
+  } else if (likeCount >= 1000 && likeCount <= 999999) {
+    displayViews = (likeCount / 1000).toFixed(1) + " " + "K";
+  } else if (likeCount >= 1000000) {
+    displayViews = (likeCount / 1000000).toFixed(1) + " " + "M";
+  }
+
+  return displayViews;
+}
+
+let correctLikeCount = calculateLikes(getSelectedVideoInfo.likeCount);
+
+// finding subscription 
+
+async function getSubscription (){
+
+  let response = await fetch(`${BASE_URL}/subscriptions?`)
+}
+
+
+
+// displaying selected video info
 let selectedVideoInfo = document.getElementById("mainVideoInfo");
 
 selectedVideoInfo.innerHTML = `
-<h3>Video Title</h3>
+<h3>${getSelectedVideoInfo.videoTitle}</h3>
         <div class="videoInfo">
           <div class="channel">
-            <img />
+            <img src="${getSelectedVideoInfo.channelLogo}" />
             <div>
-              <h4>Channel Name</h4>
+              <h4>${getSelectedVideoInfo.channelName}</h4>
               <p>subscribers</p>
             </div>
             <button class="subscribe">Subscribe</button>
@@ -35,7 +73,7 @@ selectedVideoInfo.innerHTML = `
           <div class="channel">
             <button class="likeButton">
                 <i class="fa-regular fa-thumbs-up" style="color: #080808;"></i>
-                <p>like</p>
+                <pre>${correctLikeCount}</pre>
                 <div class="horizontalLine"></div>
                 <i class="fa-regular fa-thumbs-down" style="color: #080808;"></i>
             </button>
@@ -72,15 +110,13 @@ let userCommentDiv = document.getElementById("userCommentSection");
 
 function displayComments(data) {
   for (let ele of data) {
-
     // console.log(ele);
     let individualCommentDiv = document.createElement("div");
 
     individualCommentDiv.innerHTML = `
 <div class="userComment channel">
             
-              <img src="${ele.snippet.topLevelComment.snippet.authorProfileImageUrl
-              }">
+              <img src="${ele.snippet.topLevelComment.snippet.authorProfileImageUrl}">
               
           
           <div class="userCommented">
@@ -102,26 +138,21 @@ function displayComments(data) {
   }
 }
 
-
 // get recommended videos
 
-async function getRecommendedVideos (specificvideoID){
-
-  try{
+async function getRecommendedVideos(specificvideoID) {
+  try {
     // console.log(specificvideoID);
-   
 
-    let response = await fetch(`${BASE_URL}/search?key=${API_KEY}&relatedToVideoId=${specificvideoID}&type=video&maxResults=10`);
+    let response = await fetch(
+      `${BASE_URL}/search?key=${API_KEY}&relatedToVideoId=${specificvideoID}&type=video&maxResults=10`
+    );
 
-  let data = await response.json();
+    let data = await response.json();
 
-  console.log(data);
-  }
-
-  catch(err){
+    console.log(data);
+  } catch (err) {
     console.log(err);
   }
-
-  
 }
-getRecommendedVideos(videoID);
+// getRecommendedVideos(videoID);

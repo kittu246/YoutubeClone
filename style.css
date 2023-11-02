@@ -286,8 +286,8 @@ selected Video Page */
 
 }
 .horizontalLine{
-    height:100%;
-    width:2px;
+    height:2px;
+    width:100%;
     background-color: #d9d9d9;
 }
 

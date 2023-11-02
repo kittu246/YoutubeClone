@@ -65,7 +65,7 @@ async function displayCards (data){
 
     scrollableRightSections.innerHTML= "";
     for(const ele of data){
-         console.log(ele);
+        //  console.log(ele);
 
        let viewCountObj = await getVideoInfo(ele.id.videoId);
     //    console.log(viewCountObj);
@@ -85,6 +85,19 @@ async function displayCards (data){
         videoCard.className='videoCard';
         videoCard.href =`./selectedVideo.html?videoId=${ele.id.videoId}`
         // console.log(ele.id.videoId);
+
+        // creating session storage
+        videoCard.addEventListener('click',() =>{
+            const InfoSelectedVideo = {
+                videoTitle:`${ele.snippet.title}`,
+                channelLogo:`${ele.channelObject[0].snippet.thumbnails.high.url}`,
+                channelName:`${ele.snippet.channelTitle}`,
+                likeCount:`${ele.viewObject[0].statistics.viewCount}`
+            }
+            sessionStorage.setItem('selectedVideoInformation',JSON.stringify(InfoSelectedVideo))
+            
+        })
+        
         videoCard.innerHTML= `<img src="${ele.snippet.thumbnails.high.url}">
         <div class="channel">
             <img src="${ele.channelObject[0].snippet.thumbnails.high.url}" >
