@@ -61,11 +61,34 @@ async function getChannelLogo(channelId){
 // getChannelLogo('UCt2JXOLNxqry7B_4rRZME3Q');
 
 
+// get no of subscribers
+
+
+
+async function getSubscription (channelid){
+
+    console.log(channelid);
+  
+    // let response = await fetch(`${BASE_URL}/channels?key=${API_KEY}&id=${channelid}&part=statistics`);
+  
+    let response = await fetch('./subscribers.json');
+  
+  
+    
+  
+   
+    let data = await response.json();
+    return data.items;
+  }
+
+
 async function displayCards (data){
 
     scrollableRightSections.innerHTML= "";
     for(const ele of data){
         //  console.log(ele);
+
+         
 
        let viewCountObj = await getVideoInfo(ele.id.videoId);
     //    console.log(viewCountObj);
@@ -76,7 +99,12 @@ async function displayCards (data){
     //    console.log(channelInfoObject);
        ele.channelObject = channelInfoObject;
 
-       
+
+       let subscribers =  await getSubscription(ele.snippet.channelId);
+
+       ele.subscriberCount = subscribers;
+
+    //    console.log(ele.subscriberCount[0].statistics.subscriberCount);
 
         let displayDuration = calDuration(ele.snippet.publishedAt);
        
@@ -92,7 +120,9 @@ async function displayCards (data){
                 videoTitle:`${ele.snippet.title}`,
                 channelLogo:`${ele.channelObject[0].snippet.thumbnails.high.url}`,
                 channelName:`${ele.snippet.channelTitle}`,
-                likeCount:`${ele.viewObject[0].statistics.viewCount}`
+                likeCount:`${ele.viewObject[0].statistics.viewCount}`,
+                channelID:`${ele.snippet.channelId}`,
+                subscribers:`${ele.subscriberCount[0].statistics.subscriberCount}`
             }
             sessionStorage.setItem('selectedVideoInformation',JSON.stringify(InfoSelectedVideo))
             

@@ -25,7 +25,7 @@ const videoInfoString = sessionStorage.getItem("selectedVideoInformation");
 if (videoInfoString) {
   getSelectedVideoInfo = JSON.parse(videoInfoString);
 
-  // console.log(getSelectedVideoInfo);
+  console.log(getSelectedVideoInfo);
 }
 
 //cal like count
@@ -46,12 +46,9 @@ function calculateLikes(likeCount) {
 
 let correctLikeCount = calculateLikes(getSelectedVideoInfo.likeCount);
 
-// finding subscription 
+let correctSubscriberCount = calculateLikes(getSelectedVideoInfo.subscribers);
 
-async function getSubscription (){
 
-  let response = await fetch(`${BASE_URL}/subscriptions?`)
-}
 
 
 
@@ -65,7 +62,7 @@ selectedVideoInfo.innerHTML = `
             <img src="${getSelectedVideoInfo.channelLogo}" />
             <div>
               <h4>${getSelectedVideoInfo.channelName}</h4>
-              <p>subscribers</p>
+              <p>${correctSubscriberCount} subscribers</p>
             </div>
             <button class="subscribe">Subscribe</button>
           </div>
