@@ -1,5 +1,5 @@
-const API_KEY = "AIzaSyDc9OOshV9-8IUjdQYgD1G0y3_QZl0xXKA";
-const BASE_URL = "https://www.googleapis.com/youtube/v3";
+// const API_KEY = "AIzaSyDc9OOshV9-8IUjdQYgD1G0y3_QZl0xXKA";
+// const BASE_URL = "https://www.googleapis.com/youtube/v3";
 
 let urlParam = new URLSearchParams(window.location.search);
 
@@ -12,7 +12,7 @@ window.addEventListener("load", () => {
   if (YT) {
     new YT.Player(VideoContainer, {
       height: "400",
-      width: "780",
+      width: "100%",
       videoId: videoID,
     });
   }
@@ -25,7 +25,7 @@ const videoInfoString = sessionStorage.getItem("selectedVideoInformation");
 if (videoInfoString) {
   getSelectedVideoInfo = JSON.parse(videoInfoString);
 
-  console.log(getSelectedVideoInfo);
+  // console.log(getSelectedVideoInfo);
 }
 
 //cal like count
@@ -67,7 +67,7 @@ selectedVideoInfo.innerHTML = `
             <button class="subscribe">Subscribe</button>
           </div>
 
-          <div class="channel">
+          <div  class="channel">
             <button class="likeButton">
                 <i class="fa-regular fa-thumbs-up" style="color: #080808;"></i>
                 <pre>${correctLikeCount}</pre>
@@ -137,19 +137,96 @@ function displayComments(data) {
 
 // get recommended videos
 
-async function getRecommendedVideos(specificvideoID) {
+let recommendedSectionDiv = document.getElementById("recommendedVideo");
+async function getRecommendedVideos(videoTitle) {
   try {
-    // console.log(specificvideoID);
+    
 
-    let response = await fetch(
-      `${BASE_URL}/search?key=${API_KEY}&relatedToVideoId=${specificvideoID}&type=video&maxResults=10`
-    );
+    // let response = await fetch(`${BASE_URL}/search?key=${API_KEY}&q=${videoTitle}&maxResults=10&part=snippet`);
+    
+    const response = await fetch(`./recommendedVideo.json`);
 
     let data = await response.json();
+
+    let arr = data.items;
+    
+
+    displayRecommendedData(arr);
+    
 
     console.log(data);
   } catch (err) {
     console.log(err);
   }
 }
-// getRecommendedVideos(videoID);
+getRecommendedVideos(getSelectedVideoInfo.videoTitle);
+
+
+async function displayRecommendedData (data) {
+
+console.log("erf");
+  recommendedSectionDiv.innerHTML = "";
+  for (const ele of data) {
+     console.log(ele);
+
+    let viewCountObj = await getVideoInfo(ele.id.videoId);
+       console.log(viewCountObj);
+    ele.viewObject = viewCountObj; // enjected array as object in ele object
+
+    let channelInfoObject = await getChannelLogo(ele.snippet.channelId);
+       console.log(channelInfoObject);
+    ele.channelObject = channelInfoObject;
+
+    // let subscribers = await getSubscription(ele.snippet.channelId);
+
+    // ele.subscriberCount = subscribers;
+
+    //    console.log(ele.subscriberCount[0].statistics.subscriberCount);
+
+    let displayDuration = calDuration(ele.snippet.publishedAt);
+
+    let recommendedVideoCard = document.createElement("div");
+    recommendedVideoCard.className = "recommenedvideoCard";
+
+    recommendedVideoCard.innerHTML = `<img src="${ele.snippet.thumbnails.high.url}">
+    <div>
+    <div class="channel">
+        
+        <h4>${ele.snippet.title}</h4>
+    </div>
+    <div>
+        <p>${ele.snippet.channelTitle}</p>
+        <p> ${calculateViews(
+          ele.viewObject[0].statistics.viewCount
+        )} views , ${displayDuration} ago </p>
+    </div>
+    </div>`;
+
+
+//     <div class="recommenedvideoCard">
+//     <img>
+//     <div>
+//     <div class="channel">
+       
+//         <h4>frtghyuj juiklo tyhh huejekje nbdht4ihoe hthe</h4>
+//     </div>
+//     <div >
+//         <p>erftg njii tg</p>
+//         <p> cdrvv nu</p>
+//     </div>
+//   </div>
+
+
+// </div>
+
+
+
+    recommendedSectionDiv.appendChild(recommendedVideoCard);
+
+  }
+
+}
+
+
+
+
