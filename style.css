@@ -459,15 +459,18 @@ align-items: center;
 
 @media screen and (max-width:767px) {
     
-    #menubar,.centreNav,.profile,.leftSection{
+    #menubar,.rightNav,.profile,.leftSection{
         display:none;
 
     }
-   
-
-    #mobSeachButton{
-        display:block;
+    .centreNav{
+        font-size: 1px;
     }
+   
+   .youtubeMain{
+    padding:0px 10px
+   }
+   
 
   .mobMenuDiv{
     display: block;
@@ -477,14 +480,21 @@ align-items: center;
 
     margin: 5rem .2rem  ;
   }
+  .searchDiv>i{
+    font-size: 16px;
 
+  }
+  .searchDiv{
+    width:20%;
+    border-radius: 0px 15px 15px 0px;
+  }
   .mainVideoSection{
     flex:1;
   
    
    }
    .recommendedVideo{
-    display:none
+    z-index: 1;
    
   
    }
@@ -510,6 +520,17 @@ align-items: center;
 
   .subscribe,.likeButton{
     display:none
+  }
+
+  .userCommentSection{
+
+    height: 100px;
+    overflow-y: auto;
+
+  }
+
+  .selectedVideo{
+    flex-direction: column;
   }
 
 

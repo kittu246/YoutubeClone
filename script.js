@@ -190,7 +190,7 @@ function showSmallMenuOptions (){
       menu.classList.remove("menuCards");
       menu.classList.add("MENUCARDS");
       leftSection.style.flex=1.5;
-      copyRightSystem.style.display="none";
+      copyRightSystem.style.display="block";
     }
     else{
       
@@ -198,7 +198,7 @@ function showSmallMenuOptions (){
       menu.classList.remove("MENUCARDS");
       menu.classList.add("menuCards");
       leftSection.style.flex=.5;
-      copyRightSystem.style.display="block";
+      copyRightSystem.style.display="none";
       
     }
   }

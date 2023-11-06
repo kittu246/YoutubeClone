@@ -227,6 +227,31 @@ console.log("erf");
 
 }
 
+// like functionality
+
+// let thumpUpButton = document.getElementById("thumpUP");
+
+// let thumpDownButton = document.getElementById("thumpDown");
+
+// console.log(thumpUpButton,thumpDownButton);
+
+
+// comment functionality
+
+let ownerComments = document.getElementById("ownerComment");
+
+console.log(ownerComments);
+ownerComments.addEventListener('keyup',addOwnerComment)
+
+function addOwnerComment (event){
+
+if(event.keyCode === 13 ){
+
+  
+
+}
+}
+
 
 
 
