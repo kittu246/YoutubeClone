@@ -3,9 +3,9 @@ const BASE_URL = "https://www.googleapis.com/youtube/v3";
 
 
 async function fetchData(searchQuery, maxItems) {
-//    let response = await fetch(`${BASE_URL}/search?key=${API_KEY}&q=${searchQuery}&maxResults=${maxItems}&part=snippet`);
+   let response = await fetch(`${BASE_URL}/search?key=${API_KEY}&q=${searchQuery}&maxResults=${maxItems}&part=snippet`);
 //   console.log(response);
-  let response = await fetch("./dummy.json");
+  // let response = await fetch("./dummy.json");
   let data = await response.json();
 
   let arr = data.items;
@@ -17,19 +17,21 @@ async function fetchData(searchQuery, maxItems) {
 }
 
 window.addEventListener('load',() => {
-    fetchData("" ,10);
+    fetchData("" ,12);
 })
 
 searchDiv.addEventListener("click", () => {
   // console.log(searchInput.value);
   let Value = searchInput.value;
   // console.log(searchInput.value);
-  fetchData(Value, 10);
+  fetchData(Value, 12);
+
+  searchInput.value = "";
 });
 
 async function getVideoInfo(videoId) {
-  // let response = await fetch(`${BASE_URL}/videos?key=${API_KEY}&part=statistics&id=${videoId}`);
-  let response = await fetch("./videoInfoDummy.json");
+  let response = await fetch(`${BASE_URL}/videos?key=${API_KEY}&part=statistics&id=${videoId}`);
+  // let response = await fetch("./videoInfoDummy.json");
   let data = await response.json();
   return data.items;
   // let videoInfo = data.items;
@@ -39,8 +41,8 @@ async function getVideoInfo(videoId) {
 // getVideoInfo('JhIBqykjzbs');
 
 async function getChannelLogo(channelId) {
-  // const response = await fetch(`${BASE_URL}/channels?key=${API_KEY}&part=snippet&id=${channelId}`);
-  let response = await fetch("./channelLogodummy.json");
+  const response = await fetch(`${BASE_URL}/channels?key=${API_KEY}&part=snippet&id=${channelId}`);
+  // let response = await fetch("./channelLogodummy.json");
   const data = await response.json();
 
   return data.items;
@@ -52,9 +54,9 @@ async function getChannelLogo(channelId) {
 async function getSubscription(channelid) {
   // console.log(channelid);
 
-  // let response = await fetch(`${BASE_URL}/channels?key=${API_KEY}&id=${channelid}&part=statistics`);
+  let response = await fetch(`${BASE_URL}/channels?key=${API_KEY}&id=${channelid}&part=statistics`);
 
-  let response = await fetch("./subscribers.json");
+  // let response = await fetch("./subscribers.json");
 
   let data = await response.json();
   return data.items;

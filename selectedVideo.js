@@ -87,8 +87,8 @@ selectedVideoInfo.innerHTML = `
 // get comments
 async function getComments(specificvideoID) {
   try {
-    // let response = await fetch(`${BASE_URL}/commentThreads?key=${API_KEY}&videoId=${specificvideoID}&maxResults=25&part=snippet`)
-    let response = await fetch("./comments.json");
+    let response = await fetch(`${BASE_URL}/commentThreads?key=${API_KEY}&videoId=${specificvideoID}&maxResults=20&part=snippet`)
+    // let response = await fetch("./comments.json");
 
     const data = await response.json();
 
@@ -142,9 +142,9 @@ async function getRecommendedVideos(videoTitle) {
   try {
     
 
-    // let response = await fetch(`${BASE_URL}/search?key=${API_KEY}&q=${videoTitle}&maxResults=10&part=snippet`);
+    let response = await fetch(`${BASE_URL}/search?key=${API_KEY}&q=${videoTitle}&maxResults=16&part=snippet`);
     
-    const response = await fetch(`./recommendedVideo.json`);
+    // const response = await fetch(`./recommendedVideo.json`);
 
     let data = await response.json();
 
@@ -247,7 +247,7 @@ function addOwnerComment (event){
 
 if(event.keyCode === 13 ){
 
-  
+
 
 }
 }
